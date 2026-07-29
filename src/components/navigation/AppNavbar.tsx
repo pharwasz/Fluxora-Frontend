@@ -160,7 +160,7 @@ function getFormattedUTCOffset(date: Date, tz: string): string {
     const sign = offsetMin <= 0 ? "+" : "-";
     const pad = (n: number) => String(n).padStart(2, "0");
     return `UTC${sign}${pad(offsetHours)}:${pad(offsetMinutes)}`;
-  } catch (e) {
+  } catch (_e) {
     return "UTC+00:00";
   }
 }
@@ -379,7 +379,7 @@ const location = useLocation();
           <NavbarTimeIndicator />
 
           {/* Right: Actions (desktop) */}
-          <div className="hidden md:flex items-center gap-3">
+          <div className="hidden md:flex items-center gap-3" role="group" aria-label="Desktop navigation actions">
             {/* Command Palette / Search Trigger Button */}
             <button
               type="button"
@@ -439,48 +439,6 @@ const location = useLocation();
               </Link>
             )}
           </div>
-
-          {/* Easy-read font toggle */}
-          <button
-            onClick={toggleEasyReadFont}
-            aria-label={`Switch to ${!easyReadFont ? "easy-read dyslexia-friendly" : "default"} font`}
-            aria-pressed={easyReadFont}
-            title={easyReadFont ? "Disable easy-read font" : "Enable easy-read font"}
-            className={`flex items-center justify-center min-h-[44px] min-w-[44px] px-2 rounded-full border transition-colors outline-none focus-visible:ring-2 focus-visible:ring-[var(--accent)] ${
-              easyReadFont
-                ? "border-[var(--accent)] text-[var(--accent)] bg-[var(--surface-elevated)]"
-                : "border-[var(--navbar-icon-border)] text-[var(--navbar-icon-color)] hover:border-[var(--accent)]/50 hover:text-[var(--accent)]"
-            }`}
-          >
-            <span className="font-bold text-xs tracking-wider uppercase" aria-hidden="true">
-              Aa
-            </span>
-          </button>
-
-          {/* Wallet area */}
-          {connecting ? (
-            <ConnectingSkeleton />
-          ) : connected && address ? (
-            <WalletStatus
-              address={address}
-              network={network ?? "TESTNET"}
-              expectedNetwork={expectedNetwork}
-              isNetworkMismatch={isNetworkMismatch}
-              onDisconnect={disconnect}
-            />
-          ) : (
-            <Link
-              to="/connect-wallet"
-              aria-label="Connect your Stellar wallet"
-              className="px-5 h-[44px] rounded-full bg-[var(--cta-bg)] text-white text-sm font-semibold shadow-[var(--cta-shadow)] hover:opacity-90 transition-opacity outline-none focus-visible:ring-2 focus-visible:ring-[var(--accent)] flex items-center"
-            >
-              {mobileMenuOpen ? (
-                <X size={22} aria-hidden="true" />
-              ) : (
-                <Menu size={22} aria-hidden="true" />
-              )}
-            </Link>
-          )}
         </div>
       </div>
       {/* Breadcrumb — shown on deep pages (e.g. Streams / STR-001) */}
@@ -526,22 +484,6 @@ const location = useLocation();
               }`}
             >
               <Type size={16} aria-hidden="true" />
-            </button>
-
-            <button
-              onClick={toggleEasyReadFont}
-              aria-label={`Switch to ${!easyReadFont ? "easy-read dyslexia-friendly" : "default"} font`}
-              aria-pressed={easyReadFont}
-              title={easyReadFont ? "Disable easy-read font" : "Enable easy-read font"}
-              className={`flex items-center justify-center min-h-[44px] min-w-[44px] px-2 rounded-full border transition-colors outline-none focus-visible:ring-2 focus-visible:ring-[var(--accent)] ${
-                easyReadFont
-                  ? "border-[var(--accent)] text-[var(--accent)] bg-[var(--surface-elevated)]"
-                  : "border-[var(--navbar-icon-border)] text-[var(--navbar-icon-color)] hover:border-[var(--accent)]/50 hover:text-[var(--accent)]"
-              }`}
-            >
-              <span className="font-bold text-xs tracking-wider uppercase" aria-hidden="true">
-                Aa
-              </span>
             </button>
 
             {connecting ? (
